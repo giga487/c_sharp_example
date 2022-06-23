@@ -4,12 +4,15 @@ using System.Diagnostics;
 
 namespace main
 {
+
+
     static class Program
     {
         public static readonly int MAX_CYCLE_TO_PRINT = 5000;
 
         /// <summary>
-        /// Main function
+        /// This test will study the task wait and other stuffs utils.
+        /// The Trace loggin in file and the Debug Console is used for test the code
         /// </summary>
         public static void Main()
         {
@@ -20,11 +23,12 @@ namespace main
         /// </summary>
         public static void Execution()
         {
-            Console.WriteLine("Hello world, fuck you");
+            //Console.WriteLine("Hello world, fuck you");
 
             Trace.Listeners.Add(new TextWriterTraceListener(File.Create(Path.Combine(Environment.CurrentDirectory, "log.txt"))));
+#if DEBUG
             Trace.Listeners.Add(new ConsoleTraceListener());
-
+#endif
             Trace.AutoFlush = true;
 
             Stopwatch t = new Stopwatch();
@@ -34,13 +38,18 @@ namespace main
             Task _task = new Task( () => WriteInfo());
             _task.Start();
 
-            TimeSpan ts = TimeSpan.FromMilliseconds(1500);
+            TimeSpan ts = TimeSpan.FromMilliseconds(1000);
 
             if(!_task.Wait(ts))
+            {
+                Trace.Flush();
                 Trace.Write("The timeout interval elapsed.");
+            }
+
 
             t.Stop();
 
+            Trace.Flush();
             Trace.Write($"Execution time {t.ElapsedMilliseconds}");
 
 
@@ -48,15 +57,13 @@ namespace main
         }
 
 
-        public static int WriteInfo()
+        public static void WriteInfo()
         {
-            int i = 0;
-            for (i = 0; i < MAX_CYCLE_TO_PRINT; i++)
+
+            for(int i = 0; i < MAX_CYCLE_TO_PRINT; i++)
             {
                 Trace.WriteLine("Andate tutti a fanculo");
             }
-
-            return i;
         }
     }
 }
