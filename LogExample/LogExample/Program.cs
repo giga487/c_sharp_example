@@ -38,19 +38,19 @@ namespace main
             Task _task = new Task( () => WriteInfo());
             _task.Start();
 
-            TimeSpan ts = TimeSpan.FromMilliseconds(1000);
+            TimeSpan ts = TimeSpan.FromMilliseconds(500);
 
             if(!_task.Wait(ts))
             {
                 Trace.Flush();
-                Trace.Write("The timeout interval elapsed.");
+                Trace. WriteLine("The timeout interval elapsed.");
             }
 
 
             t.Stop();
 
             Trace.Flush();
-            Trace.Write($"Execution time {t.ElapsedMilliseconds}");
+            Trace.WriteLine($"Execution time {t.ElapsedMilliseconds}");
 
 
             return;
