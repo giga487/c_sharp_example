@@ -26,7 +26,7 @@ namespace Authentication
 
             if(result == AccountCreationError.Ok)
             {
-                Password = 
+                Password = _password;
             }
 
             return result;
